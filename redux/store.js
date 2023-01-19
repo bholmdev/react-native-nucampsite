@@ -5,11 +5,11 @@ import { partnersReducer } from "../features/partners/partnersSlice";
 import { promotionsReducer } from "../features/promotions/promotionsSlice";
 
 
-const store = configureStore({
+export const store = configureStore({
     reducer: {
         campsites: campsitesReducer,
         comments: commentsReducer,
         partners: partnersReducer,
         promotions: promotionsReducer
     }
-}) ;
+});
