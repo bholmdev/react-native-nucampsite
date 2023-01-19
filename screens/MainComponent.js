@@ -11,6 +11,7 @@ import {
 import HomeScreen from "./HomeScreen";
 import AboutScreen from "./AboutScreen";
 import ContactScreen from "./ContactScreen";
+import ReservationScreen from "./ReservationScreen";
 import { Icon } from "react-native-elements";
 import logo from "../assets/images/logo.png";
 import { useDispatch } from "react-redux";
@@ -74,6 +75,29 @@ const AboutNavigator = () => {
     );
 };
 
+const ReservationNavigator = () => {
+    const Stack = createStackNavigator();
+
+    return (
+        <Stack.Navigator screenOptions={screenOptions}>
+            <Stack.Screen
+                name="Reservation"
+                component={ReservationScreen}
+                options={({ navigation }) => ({
+                    title: "Reservation Search",
+                    headerLeft: () => (
+                        <Icon
+                            name="tree"
+                            type="font-awesome"
+                            iconStyle={styles.stackIcon}
+                            onPress={() => navigation.toggleDrawer()}
+                        />
+                    )
+                })}
+            />
+        </Stack.Navigator>
+    );
+};
 const ContactNavigator = () => {
     const Stack = createStackNavigator();
 
@@ -97,6 +121,8 @@ const ContactNavigator = () => {
         </Stack.Navigator>
     );
 };
+
+
 
 const DirectoryNavigator = () => {
     const Stack = createStackNavigator();
@@ -195,6 +221,22 @@ const Main = () => {
                         drawerIcon: ({ color }) => (
                             <Icon
                                 name="list"
+                                type="font-awesome"
+                                size={24}
+                                iconStyle={{ width: 24 }}
+                                color={color}
+                            />
+                        )
+                    }}
+                />
+                <Drawer.Screen
+                    name="Reserve Campsite"
+                    component={ReservationNavigator}
+                    options={{
+                        title: "Reserve Campsite",
+                        drawerIcon: ({ color }) => (
+                            <Icon
+                                name="tree"
                                 type="font-awesome"
                                 size={24}
                                 iconStyle={{ width: 24 }}
