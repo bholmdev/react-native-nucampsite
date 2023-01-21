@@ -11,25 +11,31 @@ const RenderCampsite = (props) => {
                 <Card.Image source={{ uri: baseUrl + campsite.image }}>
                     <View style={{ justifyContent: "center", flex: 1 }}>
                         <Text
-                            style={{
-                               color: "white",
-                               textAlign: "center",
-                               fontSize: 20 
-                            }}
+                            style={styles.cardText}
                         >
                             {campsite.name}
                         </Text>
                     </View>
                 </Card.Image>
                 <Text style={{ margin: 20 }}>{campsite.description}</Text>
-                <Icon
-                    name={props.isFavorite ? "heart" : "heart-o"}
-                    type="font-awesome"
-                    color="#f50"
-                    raised
-                    reverse
-                    onPress={() => props.isFavorite ? alert("Already set as a favorite") : props.markFavorite()}
-                />
+                <View style={styles.cardRow}>
+                    <Icon
+                        name={props.isFavorite ? "heart" : "heart-o"}
+                        type="font-awesome"
+                        color="#f50"
+                        raised
+                        reverse
+                        onPress={() => props.isFavorite ? alert("Already set as a favorite") : props.markFavorite()}
+                    />
+                    <Icon
+                        name="pencil"
+                        type="font-awesome"
+                        color="#5637DD"
+                        raised
+                        reverse
+                        onPress={() => props.onShowModal()}
+                    />
+                </View>
             </Card>
         );
     }
@@ -42,6 +48,21 @@ const styles = StyleSheet.create({
         padding: 0,
         margin: 0,
         marginBottom: 20
+    },
+    cardRow: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        flexDirection: 'row',
+        margin: 20
+    },    
+cardText: {
+        textShadowColor: 'rgba(0, 0, 0, 1)',
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 20,
+        textAlign: 'center',
+        color: 'white',
+        fontSize: 20
     }
 })
 
