@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleFavorite } from "../features/favorites/favoritesSlice";
 import { useState } from "react";
 import { Icon, Input, Rating } from "react-native-elements";
+import { postComment } from "../features/comments/commentsSlice";
 
 const CampsiteInfoScreen = ({ route }) => {
     const { campsite } = route.params;
@@ -23,7 +24,7 @@ const CampsiteInfoScreen = ({ route }) => {
             text,
             campsiteId: campsite.id
         };
-        console.log("New Comment: ", newComment);
+        dispatch(postComment(newComment));
         setShowModal(!showModal);
     };
 
@@ -57,7 +58,7 @@ const CampsiteInfoScreen = ({ route }) => {
                     (comment) => comment.campsiteId === campsite.id
                 )}
                 renderItem={renderCommentItem}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={(item) => item.id.toString()}
                 contentContainerStyle={{
                     marginHorizontal: 20,
                     paddingVertical: 20
