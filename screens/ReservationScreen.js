@@ -39,7 +39,7 @@ const ReservationScreen = () => {
         setShowCalendar(false);
     };
 
-    return (
+    return ( 
         <ScrollView>
             <View style={styles.formRow}>
                 <Text styles={styles.formLabel}>Number of Campers</Text>

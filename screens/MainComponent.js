@@ -20,6 +20,7 @@ import { fetchPartners } from "../features/partners/partnersSlice";
 import { fetchCampsites } from "../features/campsites/campsitesSlice/";
 import { fetchPromotions } from "../features/promotions/promotionsSlice";
 import { fetchComments } from "../features/comments/commentsSlice";
+import FavoritesScreen from "./FavoritesScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -75,6 +76,30 @@ const AboutNavigator = () => {
     );
 };
 
+const ContactNavigator = () => {
+    const Stack = createStackNavigator();
+
+    return (
+        <Stack.Navigator screenOptions={screenOptions}>
+            <Stack.Screen
+                name="Home"
+                component={ContactScreen}
+                options={({ navigation }) => ({
+                    title: "Contact Us",
+                    headerLeft: () => (
+                        <Icon
+                            name="address-card"
+                            type="font-awesome"
+                            iconStyle={styles.stackIcon}
+                            onPress={() => navigation.toggleDrawer()}
+                        />
+                    )
+                })}
+            />
+        </Stack.Navigator>
+    );
+};
+
 const ReservationNavigator = () => {
     const Stack = createStackNavigator();
 
@@ -98,19 +123,20 @@ const ReservationNavigator = () => {
         </Stack.Navigator>
     );
 };
-const ContactNavigator = () => {
+
+const FavoritesNavigator = () => {
     const Stack = createStackNavigator();
 
     return (
         <Stack.Navigator screenOptions={screenOptions}>
             <Stack.Screen
-                name="Home"
-                component={ContactScreen}
+                name="Favorites"
+                component={FavoritesScreen}
                 options={({ navigation }) => ({
-                    title: "Contact Us",
+                    title: "Favorite Campsites",
                     headerLeft: () => (
                         <Icon
-                            name="address-card"
+                            name="heart"
                             type="font-awesome"
                             iconStyle={styles.stackIcon}
                             onPress={() => navigation.toggleDrawer()}
@@ -230,13 +256,29 @@ const Main = () => {
                     }}
                 />
                 <Drawer.Screen
-                    name="Reserve Campsite"
+                    name="ReserveCampsite"
                     component={ReservationNavigator}
                     options={{
                         title: "Reserve Campsite",
                         drawerIcon: ({ color }) => (
                             <Icon
                                 name="tree"
+                                type="font-awesome"
+                                size={24}
+                                iconStyle={{ width: 24 }}
+                                color={color}
+                            />
+                        )
+                    }}
+                />
+                <Drawer.Screen
+                    name="Favorites"
+                    component={FavoritesNavigator}
+                    options={{
+                        title: "My Favorites",
+                        drawerIcon: ({ color }) => (
+                            <Icon
+                                name="heart"
                                 type="font-awesome"
                                 size={24}
                                 iconStyle={{ width: 24 }}
