@@ -25,7 +25,7 @@ const RenderCampsite = (props) => {
                         color="#f50"
                         raised
                         reverse
-                        onPress={() => props.isFavorite ? alert("Already set as a favorite") : props.markFavorite()}
+                        onPress={() => props.isFavorite ? props.markFavorite(false) : props.markFavorite()}
                     />
                     <Icon
                         name="pencil"
