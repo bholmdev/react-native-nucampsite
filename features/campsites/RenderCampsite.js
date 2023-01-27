@@ -15,7 +15,7 @@ const RenderCampsite = (props) => {
             if (isLeftSwipe(gestureState)) {
                 Alert.alert(
                     "Add Favorite",
-                    "Are you sure you wish to add " + campsite.name + "to favorites?",
+                    "Are you sure you wish to add " + campsite.name + " to favorites?",
                     [
                         {
                             text: "Cancel",
@@ -26,13 +26,11 @@ const RenderCampsite = (props) => {
                             text: "OK",
                             onPress: () =>
                                 props.isFavorite
-                                    ? console.log("Already set as a favorite")
+                                    ? Alert.alert("Already set as a favorite")
                                     : props.markFavorite()
-                        },
-                        {
-                            cancelable: false
                         }
-                    ]
+                    ],
+                    {cancelable: false}
                 );
             }
         }
@@ -44,6 +42,7 @@ const RenderCampsite = (props) => {
                 animation="fadeInDownBig"
                 duration={2000}
                 delay={1000}
+                {...panResponder.panHandlers}
             >
                 <Card containerStyle={styles.cardContainer}>
                     <Card.Image source={{ uri: baseUrl + campsite.image }}>
