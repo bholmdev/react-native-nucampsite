@@ -54,7 +54,7 @@ const CampsiteInfoScreen = ({ route }) => {
     };
 
     return (
-        <Animated.View
+        <Animatable.View
             animation="fadeInUp"
             duration={2000}
             delay={1000}
@@ -141,7 +141,7 @@ const CampsiteInfoScreen = ({ route }) => {
                     </View>
                 </View>
             </Modal>
-        </Animated.View>
+        </Animatable.View>
     );
 };
 
