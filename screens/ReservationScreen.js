@@ -28,12 +28,37 @@ const ReservationScreen = () => {
         setDate(currentDate);
     };
 
-    // const handleReservation = () => {
-    //     console.log("campers : ", campers);
-    //     console.log("hikeIn : ", hikeIn);
-    //     console.log("date : ", date);
-    //     setShowModal(!showModal);
-    // };
+    const handleReservation = () => {
+        const message = `Number of Campers: ${campers}
+                            \nHike-In? ${hikeIn}
+                            \nDate: ${date.toLocaleDateString("en-US")}`;
+        Alert.alert(
+            "Begin Search ?",
+            message,
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => {
+                        console.log("Reservation Search Canceled");
+                        resetForm();
+                    },
+                    style: "cancel"
+                },
+                {
+                    text: "OK",
+                    onPress: () => {
+                        presentLocalNotification(date.toLocaleDateString("en-US"))
+                        resetForm()
+                    }
+                }
+            ],
+            { cancelable: false }
+        )
+        // console.log("campers : ", campers);
+        // console.log("hikeIn : ", hikeIn);
+        // console.log("date : ", date);
+        // setShowModal(!showModal);
+    };
 
     const resetForm = () => {
         setCampers(1);
@@ -121,24 +146,7 @@ const ReservationScreen = () => {
                 )}
                 <View style={styles.formRow}>
                     <Button
-                        onPress={() => Alert.alert(
-                            "Begin Search ?",
-                            "Number of Campers: " + campers +
-                            "\n\nHike-In? " + hikeIn +
-                            "\n\nDate: " + date.toLocaleDateString("en-US"),
-                            [
-                                {
-                                    text: "Cancel",
-                                    onPress: () => resetForm(),
-                                    style: "cancel"
-                                },
-                                {
-                                    text: "OK",
-                                    onPress: () => resetForm()
-                                }
-                            ],
-                            { cancelable: false }
-                        )}
+                        onPress={() => handleReservation()}
                         title="Search Availability"
                         color="#5637dd"
                         accessibilityLabel="Tap me to search for available campsties to reserve"
