@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, Text, View } from "react-native";
+import { Alert, Image, Platform, StyleSheet, Text, ToastAndroid, View } from "react-native";
 import Constants from "expo-constants";
 import CampsiteInfoScreen from "./CampsiteInfoScreen";
 import DirectoryScreen from "./DirectoryScreen"
@@ -14,7 +14,7 @@ import ContactScreen from "./ContactScreen";
 import ReservationScreen from "./ReservationScreen";
 import { Icon } from "react-native-elements";
 import logo from "../assets/images/logo.png";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchPartners } from "../features/partners/partnersSlice";
 import { fetchCampsites } from "../features/campsites/campsitesSlice/";
@@ -22,6 +22,7 @@ import { fetchPromotions } from "../features/promotions/promotionsSlice";
 import { fetchComments } from "../features/comments/commentsSlice";
 import FavoritesScreen from "./FavoritesScreen";
 import LoginScreen from "./LoginScreen";
+import NetInfo from "@react-native-community/netinfo";
 
 const Drawer = createDrawerNavigator();
 
@@ -231,6 +232,48 @@ const Main = () => {
         dispatch(fetchPartners());
         dispatch(fetchComments());
     }, [dispatch]);
+
+    useEffect(() => {
+        NetInfo.fetch().then(connectionInfo => {
+            Platform.OS === "ios"
+                ? Alert.alert(
+                    "Initial Network Connectivity Type:", connectionInfo.type
+                )
+                : ToastAndroid.show(
+                    "Initial Network Connectivity Type:" + connectionInfo.type,
+                    ToastAndroid.LONG
+                )
+        });
+
+        const unsubscriptNetInfo = NetInfo.addEventListener(
+            connectionInfo => {
+                handleConnectivityChange(connectionInfo)
+            }
+        )
+
+        return unsubscriptNetInfo;
+    }, []);
+
+    const handleConnectivityChange = connectionInfo => {
+        let connectionMsg = "You are now connected to an active network.";
+        switch (connectionInfo.type) {
+            case "none":
+                connectionMsg = "No network connection is active.";
+                break;
+            case "unknown":
+                connectionMsg = "The network connection stat is now unknown";
+                break;
+            case "cellular":
+                connectionMsg = "You are now connected to a cellular network.";
+                break;
+            case "wifi":
+                connectionMsg = "You are now connected to a WiFi network";
+                break;
+        }
+        Platform.OS === "ios"
+            ? Alert.alert("Connection change", connectionMsg)
+            : ToastAndroid.show(connectionMsg, ToastAndroid.LONG)
+    };
 
     return (
         <View
