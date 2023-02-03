@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, ScrollView, View } from "react-native";
+import { Image, StyleSheet, ScrollView, View } from "react-native";
 import { Button, CheckBox, Icon, Input } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import * as ImagePicker from "expo-image-picker";
+import { baseUrl } from "../shared/baseUrl";
+import logo from "../assets/images/logo.png";
 
 const LoginTab = ({ navigation }) => {
     const [username, setUserName] = useState("");
@@ -105,6 +108,7 @@ const RegisterTab = () => {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [remember, setRemember] = useState(false);
+    const [imageUrl, setImageUrl] = useState(baseUrl + "images/logo.png");
 
     const handleRegister = () => {
         const userInfo = {
@@ -133,9 +137,37 @@ const RegisterTab = () => {
         }
     };
 
+    const getImageFromCamera = async () => {
+        const cameraPermission = 
+            await ImagePicker.requestCameraPermissionsAsync();
+
+        if (cameraPermission.status === "granted") {
+            const capturedImage = await ImagePicker.launchCameraAsync({
+                allowsEditing: true,
+                aspect: [1, 1]
+            });
+
+            if (!capturedImage.cancelled) {
+                console.log(capturedImage);
+                setImageUrl(capturedImage.uri);
+            }
+        }
+    };
+
     return (
         <ScrollView>
             <View style={styles.container}>
+                <View style={styles.ImageContaner}>
+                    <Image
+                        source={{ uri: imageUrl }}
+                        loadingIndicatorSource={logo}
+                        style={styles.image}
+                    />
+                    <Button
+                        title="Camera"
+                        onPress={getImageFromCamera}
+                    />
+                </View>
                 <Input
                     placeholder="Username"
                     leftIcon={{ type: "font-awesome", name: "user-o" }}
@@ -266,6 +298,17 @@ const styles = StyleSheet.create({
         margin: 20,
         marginRight: 40,
         marginLeft: 40
+    },
+    ImageContaner: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        margin: 10
+    },
+    image: {
+        width: 60,
+        height: 60
     }
 });
 
